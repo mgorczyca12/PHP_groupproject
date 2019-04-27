@@ -1,8 +1,14 @@
+<!DOCTYPE html>
 <html>
 
 	<head><title>Search</title></head>
 
 	<body>
+		<?php
+			// Start the session
+			session_start();
+		?>
+	
 		<form method="GET" action="entry.php">
 
 			Artist:<br>
@@ -47,7 +53,7 @@
 			
 			
 			Song Title:<br>
-			<select name="title">
+			<select name="song">
 				<option value="null"></option>
 				<?php
 				
@@ -87,7 +93,7 @@
 			<br>
 				
 			Contributor:<br>
-			<select name="title">
+			<select name="contributor">
 				<option value="null"></option>
 				<?php
 				
@@ -126,7 +132,8 @@
 			</select>
 			<br>
 			Submit
-			<input type="submit" value="submit">
+			<a href="entry.php"><input type="submit" value="submit"></a>
 		</form>
+		
 	</body>
 </html>
