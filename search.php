@@ -8,9 +8,11 @@
 			// Start the session
 			session_start();
 		?>
-	
+		
+		<!-- Main form to send data -->
 		<form method="GET" action="entry.php">
-
+			
+			<!-- Artist gets chosen here -->
 			Artist:<br>
 			<select name="artists">
 				<option value="null"></option>
@@ -51,7 +53,7 @@
 			</select>
 			<br>
 			
-			
+			<!-- Song Title gets chosen here-->
 			Song Title:<br>
 			<select name="song">
 				<option value="null"></option>
@@ -91,7 +93,8 @@
 				?>
 			</select>
 			<br>
-				
+			
+			<!-- Contributor gets chosen down here---->
 			Contributor:<br>
 			<select name="contributor">
 				<option value="null"></option>
@@ -130,6 +133,8 @@
 					}
 				?>
 			</select>
+			
+			<!-- Submit button -->
 			<br>
 			Submit
 			<a href="entry.php"><input type="submit" value="submit"></a>
