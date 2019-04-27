@@ -4,8 +4,10 @@
 
 	<body>
 		<form method="GET" action="entry.php">
+
 			Artist:<br>
 			<select name="artists">
+				<option value="null"></option>
 				<?php
 				
 					ini_set('display_error', 1);
@@ -26,24 +28,27 @@
 					}
 
 					$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
-					$sql = "SELECT DISTINCT Associated FROM SongCon;";
+					$sql = "SELECT DISTINCT AssociatedAct FROM SongCon;";
 					$prepared = $pdo->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
 					$success = $prepared->execute(array());
 
 					while($row = $prepared->fetch(PDO::FETCH_BOTH))
 					{
 						echo '<option value="';
-						echo $row['Associated'];
+						echo $row['AssociatedAct'];
 						echo '">';
 
-						echo $row['Associated'];
+						echo $row['AssociatedAct'];
 						echo '</option>';
 					}
 				?>
 			</select>
+			<br>
+			
 			
 			Song Title:<br>
 			<select name="title">
+				<option value="null"></option>
 				<?php
 				
 					ini_set('display_error', 1);
@@ -79,9 +84,11 @@
 					}
 				?>
 			</select>
+			<br>
 				
 			Contributor:<br>
 			<select name="title">
+				<option value="null"></option>
 				<?php
 				
 					ini_set('display_error', 1);
@@ -117,6 +124,7 @@
 					}
 				?>
 			</select>
+			<br>
 			Submit
 			<input type="submit" value="submit">
 		</form>
