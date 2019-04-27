@@ -9,8 +9,12 @@
 			session_start();
 		?>
 		
-		<!-- Main form to send data -->
+		
+		<!-- Main form to send file data -->
 		<form method="GET" action="entry.php">
+			Name:<input type="text" name="name">
+			
+			<hr>
 			
 			<!-- Artist gets chosen here -->
 			Artist:<br>
