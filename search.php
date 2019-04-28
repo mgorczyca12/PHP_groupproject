@@ -2,7 +2,7 @@
 <html>
 
 	<head><title>Search</title></head>
-i
+
 	<body>
 		<?php
 			// Start the session
