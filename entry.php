@@ -34,36 +34,48 @@
 				exit();
 			}
 			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
-			if($_SESSION['artists'] != 'null' && $_SESSION['song'] == 'null' && $_SESSION['contributer'] == 'null')
+			$artist=$_SESSION['artists'];
+			$song=$_SESSION['song'];
+			$contrib=$_SESSION['contributor'];
+			if($_SESSION['artists'] != 'null' && $_SESSION['song'] == 'null' && $_SESSION['contributor'] == 'null')
 			{
-				$sqlStatement="SELECT SongTitle FROM SongCon INNER JOIN Contributor  ON SongCon.CconID = Contributor.ConID INNER JOIN Song ON SongCon.CsongID = Song.SongID WHERE ConName = 'Ronnie James Dio';";
+				$sqlStatement="SELECT DISTINCT AssociatedAct,SongTitle,Version FROM SongContributor INNER JOIN Song ON SongContributor.CsongID = Song.songID 
+				INNER JOIN Contributor ON SongContributor.CconID = Contributor.ConID INNER JOIN File ON SongContributor.CfileID = File.FileID WHERE AssociatedAct='$artist';";
 			}
 			else if($_SESSION['artists'] == 'null' && $_SESSION['song'] != 'null' && $_SESSION['contributor'] == 'null')
 			{
-				$sqlStatement="SELECT Username,SongTitle,Version FROM FreeQueue INNER JOIN SongFile ON FreeQueue.FQFileID = SongFile.FileKey INNER JOIN Song ON SongFile.SFsongID = Song.SongID INNER JOIN File ON SongFile.SFfileID = File.FileID INNER JOIN User ON FreeQueue.FQUSerID = User.UserID;";
+				$sqlStatement="SELECT DISTINCT AssociatedAct,SongTitle,Version FROM SongCon INNER JOIN Song ON SongCon.CsongID = Song.songID 
+				INNER JOIN Contributor ON SongCon.CconID = Contributor.ConID WHERE SongTitle = '$song';";
 			}
 			else if($_SESSION['artists'] != 'null' && $_SESSION['song'] != 'null' && $_SESSION['contributor'] == 'null')
 			{
-				$sqlStatement="SELECT ConName,SongTitle,Genre FROM SongCon INNER JOIN Song ON SongCon.CsongID = Song.SongID INNER JOIN Contributor ON SongCon.CconID = Contributor.ConID;";
+				$sqlStatement="SELECT DISTINCT AssociatedAct,SongTitle,Version FROM SongContributor INNER JOIN Song ON SongContributor.CsongID = Song.songID 
+				INNER JOIN Contributor ON SongContributor.CconID = Contributor.ConID INNER JOIN File ON SongContributor.CfileID = File.FileID 
+				WHERE AssociatedAct = '$artist' AND SongTitle = '$song';";
 			}
 			else if($_SESSION['artists'] == 'null' && $_SESSION['song'] == 'null' && $_SESSION['contributor'] != 'null')
 			{
-				$sqlStatement="";
+				$sqlStatement="SELECT DISTINCT AssociatedAct,SongTitle,Version FROM SongCon INNER JOIN Song ON SongCon.CsongID = Song.songID INNER JOIN Contributor 
+				ON SongCon.CconID = Contributor.ConID WHERE ConName = '$contrib';";
 			}
 			else if($_SESSION['artists'] != 'null' && $_SESSION['song'] == 'null' && $_SESSION['contributor'] != 'null')
 			{
-				$sqlStatement="";
+				$sqlStatement="SELECT DISTINCT AssociatedAct,SongTitle,Version FROM SongCon INNER JOIN Song ON SongCon.CsongID = Song.songID 
+				INNER JOIN Contributor ON SongCon.CconID = Contributor.ConID WHERE AssociatedAct='$artist' AND ConName = '$contrib';";
 			}
 			else if($_SESSION['artists'] == 'null' && $_SESSION['song'] != 'null' && $_SESSION['contributor'] != 'null')
 			{
-				$sqlStatement="";
+				$sqlStatement="SELECT DISTINCT AssociatedAct,SongTitle,Version FROM SongCon INNER JOIN Song ON SongCon.CsongID = Song.songID 
+				INNER JOIN Contributor ON SongCon.CconID = Contributor.ConID WHERE SongTitle = '$song' AND ConName = '$contrib';";
 			}
 			else if($_SESSION['artists'] != 'null' && $_SESSION['song'] != 'null' && $_SESSION['contributor'] != 'null')
 			{
-				$sqlStatement="";
+				$sqlStatement="SELECT DISTINCT AssociatedAct,SongTitle,Version FROM SongCon INNER JOIN Song ON SongCon.CsongID = Song.songID 
+				INNER JOIN Contributor ON SongCon.CconID = Contributor.ConID WHERE AssociatedAct='$artist' AND SongTitle = '$song' AND ConName = '$contrib';";
 			}
 			else
 			{
+				echo "Yousa made big error this time";
 				exit();
 			}
 			
@@ -72,6 +84,22 @@
 
 			
 			echo "<table>";
+			echo "<tr>";
+			echo "<th>";
+			echo "Song";
+			echo "</th>";
+			echo "<th>";
+			echo "Performed by";
+			echo "</th>";
+			echo "<th>";
+			echo "Music Type";
+			echo "</th>";
+			echo "<th>";
+			echo "Select Here to Add Song";
+			echo "</th>";
+			echo "</tr>";
+			$incrementChoice = 0;
+			echo '<form action="" method="GET">';
 			while( $row = $prepared->fetch(PDO::FETCH_BOTH))   //was result
 			{
 				echo '<tr><td>';
@@ -79,12 +107,17 @@
 				echo '</td>';
 
 				echo '<td>';
-				echo $row['ConName'];
+				echo $row['AssociatedAct'];
 				echo '</td>';
 
 				echo '<td>';
-				echo $row['Genre'];
+				echo $row['Version'];
 				echo '</td>';
+				
+				//echo '<td>';
+				//echo '<input type="radio" name="songChoice"';
+				//if(isset($songChoice) && $songChoice=='$incrementChoice')
+				//echo '</td>';
 
 				echo '</tr>';
 			}
