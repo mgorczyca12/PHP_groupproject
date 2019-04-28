@@ -10,7 +10,7 @@
 		
 		<!-- Main form to send file data -->
 		<form method="GET" action="entry.php">
-			Name:<input type="text" name="user">
+			<!-- Name:<input type="text" name="user"> -->
 			
 			<hr>
 			
